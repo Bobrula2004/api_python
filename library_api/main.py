@@ -5,8 +5,8 @@ from library_api.db import engine
 
 
 app = FastAPI(
-    title="Library Management API",
-    description="A comprehensive API for managing books in a library with CRUD operations, filtering, sorting and pagination",
+    title="Библиотека API",
+    description="Комплексный API для управления книгами в библиотеке с CRUD-операциями, фильтрацией, сортировкой и пагинацией",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -21,7 +21,7 @@ app.include_router(genres.router)
 @app.get("/")
 def read_root():
     return {
-        "message": "Welcome to the Library Management API",
+        "message": "Библиотека",
         "docs": "/docs",
         "redoc": "/redoc"
     }

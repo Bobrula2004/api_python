@@ -21,7 +21,7 @@ def create_author(author: schemas.AuthorCreate, db: Session = Depends(get_db)):
 def get_author(author_id: int, db: Session = Depends(get_db)):
     author = db.query(models.Author).filter(models.Author.id == author_id).first()
     if not author:
-        raise HTTPException(status_code=404, detail="Author not found")
+        raise HTTPException(status_code=404, detail="Автор не найден")
     return author
 
 
@@ -29,7 +29,7 @@ def get_author(author_id: int, db: Session = Depends(get_db)):
 def update_author(author_id: int, author_update: schemas.AuthorUpdate, db: Session = Depends(get_db)):
     author = db.query(models.Author).filter(models.Author.id == author_id).first()
     if not author:
-        raise HTTPException(status_code=404, detail="Author not found")
+        raise HTTPException(status_code=404, detail="Автор не найден")
     
     # Update author attributes
     for field, value in author_update.dict(exclude_unset=True).items():
@@ -44,18 +44,18 @@ def update_author(author_id: int, author_update: schemas.AuthorUpdate, db: Sessi
 def delete_author(author_id: int, db: Session = Depends(get_db)):
     author = db.query(models.Author).filter(models.Author.id == author_id).first()
     if not author:
-        raise HTTPException(status_code=404, detail="Author not found")
+        raise HTTPException(status_code=404, detail="Автор не найден")
     
     db.delete(author)
     db.commit()
-    return {"message": "Author deleted successfully"}
+    return {"message": "Автор удален успешно"}
 
 
 @router.get("/", response_model=List[schemas.Author])
 def get_authors(
     db: Session = Depends(get_db),
-    skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(10, ge=1, le=100, description="Maximum number of records to return")
+    skip: int = Query(0, ge=0, description="Количество пропущенных записей"),
+    limit: int = Query(10, ge=1, le=100, description="Максимальное количество возвращаемых записей")
 ):
     authors = db.query(models.Author).offset(skip).limit(limit).all()
     return authors
